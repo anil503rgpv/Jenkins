@@ -22,7 +22,6 @@ RUN apt update && apt install  openssh-server sudo -y \
 
 COPY jenkins.yaml /var/jenkins_conf/jenkins.yaml
 
-RUN chown jenkins:jenkins -R /var/ssh
 RUN chown jenkins:jenkins -R /var/jenkins_conf
 
 USER jenkins
