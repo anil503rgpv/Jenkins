@@ -21,7 +21,6 @@ RUN apt update && apt install  openssh-server sudo -y \
     traceroute \
     wget 
 
-RUN chown jenkins:jenkins -R /var/jenkins_conf
 
 USER jenkins
 
@@ -30,3 +29,4 @@ ARG JAVA_OPTS
 ENV JAVA_OPTS "-Djenkins.install.runSetupWizard=false ${JAVA_OPTS:-}"
 
 COPY jenkins.yaml /var/jenkins_home/casc_configs/jenkins.yaml
+RUN chown jenkins:jenkins -R /var/jenkins_home/casc_configs
