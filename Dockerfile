@@ -2,7 +2,7 @@ FROM jenkins/jenkins:lts-jdk11
 
 LABEL maintainer="anilkupatel001@gmail.com"
 ENV JENKINS_HOME /var/jenkins_home
-COPY --chown=jenkins:jenkins master/plugins_extra.txt /usr/share/jenkins/ref/plugins_extra.txt
+COPY --chown=jenkins:jenkins plugins_extra.txt /usr/share/jenkins/ref/plugins_extra.txt
 RUN \cp /usr/share/jenkins/ref/plugins_extra.txt ${JENKINS_HOME}/plugins_extra.txt
 USER root
 
