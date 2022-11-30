@@ -57,6 +57,10 @@ jenkins:
       users:
         - id: "admin"
           password: "1234"
+          properties:
+            - mailer:
+                emailAddress: "donotreplyshivaanta@gmail.com"
+
         - id: "user1"
           password: "password"
 
