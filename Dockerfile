@@ -22,6 +22,10 @@ RUN apt update && apt install  openssh-server sudo -y \
     wget 
 
 COPY jenkins.yaml /var/jenkins_home/casc_configs/jenkins.yaml
+ARG REPLACE_ME_SMTP_USERNAME
+ARG REPLACE_ME_SMTP_PASSWORD
+RUN sed -i 's/REPLACE_ME_SMTP_USERNAME/$REPLACE_ME_SMTP_USERNAME/g' /var/jenkins_home/casc_configs/jenkins.yaml
+RUN sed -i 's/REPLACE_ME_SMTP_PASSWORD/$REPLACE_ME_SMTP_PASSWORD/g' /var/jenkins_home/casc_configs/jenkins.yaml
 RUN chown jenkins:jenkins -R /var/jenkins_home/casc_configs
 
 USER jenkins
@@ -29,11 +33,7 @@ USER jenkins
 
 ARG JAVA_OPTS
 ENV JAVA_OPTS "-Djenkins.install.runSetupWizard=false ${JAVA_OPTS:-}"
-# password file you need to create by yourself and keep this to your project repo without commiting in Github
-COPY password /var/password  
-ARG REPLACE_ME_SMTP_USERNAME
-ARG REPLACE_ME_SMTP_PASSWORD
-RUN sed -i 's/REPLACE_ME_SMTP_USERNAME/$REPLACE_ME_SMTP_USERNAME/g' /var/jenkins_home/casc_configs/jenkins.yaml
-RUN sed -i 's/REPLACE_ME_SMTP_PASSWORD/$REPLACE_ME_SMTP_PASSWORD/g' /var/jenkins_home/casc_configs/jenkins.yaml
+
+
 
 ENV CASC_JENKINS_CONFIG=/var/jenkins_home/casc_configs/jenkins.yaml
