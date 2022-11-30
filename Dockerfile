@@ -29,8 +29,8 @@ USER jenkins
 
 ARG JAVA_OPTS
 ENV JAVA_OPTS "-Djenkins.install.runSetupWizard=false ${JAVA_OPTS:-}"
-
-COPY ../password /var/password
+# password file you need to create by yourself and keep this to your project repo without commiting in Github
+COPY password /var/password  
 ARG REPLACE_ME_SMTP_USERNAME=$(cat password | grep REPLACE_ME_SMTP_USERNAME=) | sed 's/REPLACE_ME_SMTP_USERNAME=//g'
 ARG REPLACE_ME_SMTP_PASSWORD=$(cat password | grep REPLACE_ME_SMTP_PASSWORD=) | sed 's/REPLACE_ME_SMTP_PASSWORD=//g'
 RUN sed -i 's/REPLACE_ME_SMTP_USERNAME/$REPLACE_ME_SMTP_USERNAME/g' /var/jenkins_home/casc_configs/jenkins.yaml
