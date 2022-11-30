@@ -24,6 +24,7 @@ RUN apt update && apt install  openssh-server sudo -y \
 COPY jenkins.yaml /var/jenkins_home/casc_configs/jenkins.yaml
 ARG REPLACE_ME_SMTP_USERNAME
 ARG REPLACE_ME_SMTP_PASSWORD
+RUN echo $REPLACE_ME_SMTP_USERNAME + '---' + $REPLACE_ME_SMTP_PASSWORD
 RUN sed -i 's/REPLACE_ME_SMTP_USERNAME/$REPLACE_ME_SMTP_USERNAME/g' /var/jenkins_home/casc_configs/jenkins.yaml
 RUN sed -i 's/REPLACE_ME_SMTP_PASSWORD/$REPLACE_ME_SMTP_PASSWORD/g' /var/jenkins_home/casc_configs/jenkins.yaml
 RUN chown jenkins:jenkins -R /var/jenkins_home/casc_configs
