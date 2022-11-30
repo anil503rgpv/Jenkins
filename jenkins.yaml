@@ -80,3 +80,17 @@ tool:
     installations:
       - name: git
         home: /usr/bin/git
+
+unclassified:
+  location:
+    adminAddress: "donotreplyshivaanta@gmail.com"
+  mailer:
+    authentication:
+      password: "REPLACE_ME_SMTP_PASSWORD"
+      username: "REPLACE_ME_SMTP_USERNAME"
+    charset: "UTF-8"
+    replyToAddress: "shivaanta@gmail.com"
+    smtpHost: "email-smtp.ap-south-1.amazonaws.com"
+    smtpPort: "465"
+    useSsl: true
+    useTls: false    
