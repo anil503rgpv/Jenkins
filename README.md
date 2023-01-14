@@ -35,3 +35,9 @@ https://github.com/jenkinsci/configuration-as-code-plugin
 Official demo documentation JCasC 
 https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos
 
+#### ansible -packer commands
+`docker build -t ansible-packer:01 .`
+
+`docker build -t packer-test:02 .`
+
+`docker run -v `pwd`:/workspace -w /workspace packer-test:02 build .`
