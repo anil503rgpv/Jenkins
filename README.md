@@ -41,3 +41,26 @@ https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos
 `docker build -t packer-test:02 .`
 
 `docker run -v `pwd`:/workspace -w /workspace packer-test:02 build .`
+
+
+# Check if the ECR registry exists
+REGISTRY_EXISTS=$(aws ecr describe-repositories --repository-names jenkins-master 2>&1)
+
+if [[ $REGISTRY_EXISTS == *"RepositoryNotFoundException"* ]]; then
+  # Create the ECR registry
+  aws ecr create-repository --repository-name jenkins-master
+else
+  echo "ECR registry jenkins-master already exists"
+fi
+
+
+
+===================
+ECR_REGISTRY := jenkins-master
+
+check-registry:
+	aws ecr describe-repositories --repository-names $(ECR_REGISTRY) > /dev/null 2>&1 || $(MAKE) create-registry
+
+create-registry:
+	aws ecr create-repository --repository-name $(ECR_REGISTRY)
+
