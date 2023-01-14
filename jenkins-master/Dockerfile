@@ -17,8 +17,6 @@ RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io d
 
 RUN chown jenkins:jenkins -R /var/jenkins_home/casc_configs
 
-RUN usermod -u 1001 jenkins && groupmod -g 1001 jenkins
-
 USER jenkins
 ENV MAIL_SECRET_KEY=${MAIL_SECRET_KEY}
 ENV MAIL_ACCESS_KEY=${MAIL_ACCESS_KEY}
