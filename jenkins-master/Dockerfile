@@ -12,6 +12,8 @@ ENV SSH_PRIVATE_FILE_PATH=${PRIVATE_KEY_PATH}
 ARG JAVA_OPTS
 ENV JAVA_OPTS "-Djenkins.install.runSetupWizard=false ${JAVA_OPTS:-}"
 
+RUN apt-get update && apt-get install -y docker-ce
+
 
 
 ENV CASC_JENKINS_CONFIG=/var/jenkins_home/casc_configs/jenkins.yaml
