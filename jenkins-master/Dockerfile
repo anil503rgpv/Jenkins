@@ -5,7 +5,15 @@ ARG PRIVATE_KEY_PATH=/home/jenkins/.ssh/id_rsa
 COPY jenkins.yaml /var/jenkins_home/casc_configs/jenkins.yaml
 COPY id_rsa ${PRIVATE_KEY_PATH}
 RUN chmod 400 ${PRIVATE_KEY_PATH} && chown jenkins:jenkins ${PRIVATE_KEY_PATH}
-RUN apt-get update && apt-get install -y docker-ce
+RUN apt-get install \
+    ca-certificates \
+    gnupg 
+RUN mkdir -p /etc/apt/keyrings && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+RUN echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+RUN chmod a+r /etc/apt/keyrings/docker.gpg
+RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 RUN chown jenkins:jenkins -R /var/jenkins_home/casc_configs
 
