@@ -1,3 +1,20 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - aws:
+          iamRoleArn: "arn:aws:iam::532366692945:role/aws-jenkins-admin-role"
+          id: "aws-jenkins-admin"
+          scope: GLOBAL
+          secretKey: "{AQAAABAAAAAQXJAZ/EPGnLqhGRfNukH1eNdZm/YC8zBol3vJev8a4LY=}"
+      - basicSSHUserPrivateKey:
+          id: "github-admin"
+          privateKeySource:
+            directEntry:
+              privateKey: "${readFile:${SSH_PRIVATE_FILE_PATH}}"
+          scope: GLOBAL
+          username: "anil305rgpv"
+
 jenkins:
   systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code Plugin\n\n"
   numExecutors: 1
@@ -83,11 +100,11 @@ tool:
 
 unclassified:
   location:
-    adminAddress: "donotreplyshivaanta@gmail.com"
+    adminAddress: "donotreplyshivaanta@shivaanta.com"
   mailer:
     authentication:
-      password: "REPLACE_ME_SMTP_PASSWORD"
-      username: "REPLACE_ME_SMTP_USERNAME"
+      password: ${MAIL_SECRET_KEY}
+      username: ${MAIL_ACCESS_KEY}
     charset: "UTF-8"
     replyToAddress: "shivaanta@gmail.com"
     smtpHost: "email-smtp.ap-south-1.amazonaws.com"
