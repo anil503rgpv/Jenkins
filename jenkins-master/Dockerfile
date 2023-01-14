@@ -16,7 +16,7 @@ RUN chmod a+r /etc/apt/keyrings/docker.gpg
 RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 RUN chown jenkins:jenkins -R /var/jenkins_home/casc_configs
-
+COPY config /home/jenkins/.ssh/config
 USER jenkins
 ENV MAIL_SECRET_KEY=${MAIL_SECRET_KEY}
 ENV MAIL_ACCESS_KEY=${MAIL_ACCESS_KEY}
