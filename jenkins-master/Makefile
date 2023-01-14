@@ -1,4 +1,4 @@
-IMAGE_NAME = jenkins-master-base
+IMAGE_NAME = jenkins-master
 
 MAKE_COMMON ?= ../make-common
 include $(MAKE_COMMON)/docker.mk
