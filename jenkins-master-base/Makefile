@@ -9,7 +9,7 @@ docker.login.ecr :
 		aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 532366692945.dkr.ecr.ap-south-1.amazonaws.com
 		
 check-ecr-registry: docker.login.ecr
-	aws ecr describe-repositories --repository-names $(IMAGE_NAME) > /dev/null 2>&1 || \
-	aws ecr create-repository --repository-name $(IMAGE_NAME)
+	aws ecr describe-repositories --region ap-south-1 --repository-names $(IMAGE_NAME) > /dev/null 2>&1 || \
+	aws ecr create-repository --region ap-south-1 --repository-name $(IMAGE_NAME)
 		
 prepare : check-ecr-registry
