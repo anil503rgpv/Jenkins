@@ -110,4 +110,8 @@ unclassified:
     smtpHost: "email-smtp.ap-south-1.amazonaws.com"
     smtpPort: "465"
     useSsl: true
-    useTls: false    
+    useTls: false
+
+security:
+  gitHostKeyVerificationConfiguration:
+    sshHostKeyVerificationStrategy: "acceptFirstConnectionStrategy"
