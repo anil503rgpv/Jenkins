@@ -14,7 +14,6 @@ RUN echo \
 RUN chmod a+r /etc/apt/keyrings/docker.gpg
 RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
-RUN chown jenkins:jenkins -R /var/jenkins_home/casc_configs
 RUN echo "    StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 RUN echo "    UserKnownHostsFile=/dev/null" >> /etc/ssh/ssh_config
 USER jenkins
@@ -26,4 +25,5 @@ ENV JAVA_OPTS "-Djenkins.install.runSetupWizard=false ${JAVA_OPTS:-}"
 
 
 COPY jenkins.yaml /home/jenkins/casc_configs/jenkins.yaml
+RUN chown jenkins:jenkins -R /var/jenkins_home/casc_configs
 ENV CASC_JENKINS_CONFIG=/home/jenkins/casc_configs/jenkins.yaml
