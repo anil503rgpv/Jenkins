@@ -2,7 +2,6 @@ FROM 532366692945.dkr.ecr.ap-south-1.amazonaws.com/jenkins-master-base:latest
 ARG MAIL_SECRET_KEY
 ARG MAIL_ACCESS_KEY
 ARG PRIVATE_KEY_PATH=/home/jenkins/ssh_key/id_rsa
-COPY jenkins.yaml /var/jenkins_home/casc_configs/jenkins.yaml
 COPY id_rsa ${PRIVATE_KEY_PATH}
 RUN chmod 400 ${PRIVATE_KEY_PATH} && chown jenkins:jenkins ${PRIVATE_KEY_PATH}
 RUN apt-get install \
@@ -26,5 +25,5 @@ ARG JAVA_OPTS
 ENV JAVA_OPTS "-Djenkins.install.runSetupWizard=false ${JAVA_OPTS:-}"
 
 
-
-ENV CASC_JENKINS_CONFIG=/var/jenkins_home/casc_configs/jenkins.yaml
+COPY jenkins.yaml /home/jenkins/casc_configs/jenkins.yaml
+ENV CASC_JENKINS_CONFIG=/home/jenkins/casc_configs/jenkins.yaml
