@@ -25,5 +25,5 @@ ENV JAVA_OPTS "-Djenkins.install.runSetupWizard=false ${JAVA_OPTS:-}"
 
 
 COPY jenkins.yaml /home/jenkins/casc_configs/jenkins.yaml
-RUN chown jenkins:jenkins -R /var/jenkins_home/casc_configs
+RUN chown jenkins:jenkins -R /home/jenkins/casc_configs
 ENV CASC_JENKINS_CONFIG=/home/jenkins/casc_configs/jenkins.yaml
