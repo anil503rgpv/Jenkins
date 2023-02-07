@@ -14,8 +14,9 @@ RUN echo \
 RUN chmod a+r /etc/apt/keyrings/docker.gpg
 RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
-RUN echo "    StrictHostKeyChecking no" >> /etc/ssh/ssh_config
-RUN echo "    UserKnownHostsFile=/dev/null" >> /etc/ssh/ssh_config
+COPY jenkins.yaml /home/jenkins/casc_configs/jenkins.yaml
+RUN chown jenkins:jenkins -R /home/jenkins/casc_configs
+
 USER jenkins
 ENV MAIL_SECRET_KEY=${MAIL_SECRET_KEY}
 ENV MAIL_ACCESS_KEY=${MAIL_ACCESS_KEY}
@@ -23,7 +24,4 @@ ENV SSH_PRIVATE_FILE_PATH=${PRIVATE_KEY_PATH}
 ARG JAVA_OPTS
 ENV JAVA_OPTS "-Djenkins.install.runSetupWizard=false ${JAVA_OPTS:-}"
 
-
-COPY jenkins.yaml /home/jenkins/casc_configs/jenkins.yaml
-RUN chown jenkins:jenkins -R /home/jenkins/casc_configs
 ENV CASC_JENKINS_CONFIG=/home/jenkins/casc_configs/jenkins.yaml
