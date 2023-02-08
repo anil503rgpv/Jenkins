@@ -2,11 +2,6 @@ credentials:
   system:
     domainCredentials:
     - credentials:
-      - aws:
-          iamRoleArn: "arn:aws:iam::532366692945:role/aws-jenkins-admin-role"
-          id: "aws-jenkins-admin"
-          scope: GLOBAL
-          secretKey: "{AQAAABAAAAAQXJAZ/EPGnLqhGRfNukH1eNdZm/YC8zBol3vJev8a4LY=}"
       - basicSSHUserPrivateKey:
           id: "github-admin"
           privateKeySource:
@@ -14,8 +9,64 @@ credentials:
               privateKey: "${readFile:${SSH_PRIVATE_FILE_PATH}}"
           scope: GLOBAL
           username: "anil305rgpv"
+      - basicSSHUserPrivateKey:
+          description: "ec2-user login"
+          id: "ec2-user"
+          privateKeySource:
+            directEntry:
+              privateKey: "${readFile:${AWS_EC2_FILE_PATH}}"
+          scope: GLOBAL
+          username: "ec2-user"
 
 jenkins:
+  clouds:
+  - amazonEC2:
+      cloudName: "Amazon LinuxEC2"
+      region: "ap-south-1"
+      roleArn: "arn:aws:iam::532366692945:role/ses-role"
+      sshKeysCredentialsId: "ec2-user"
+      templates:
+      - ami: "${AWS_AMI_ID}"
+        amiType:
+          unixData:
+            sshPort: "22"
+        associatePublicIp: true
+        connectBySSHProcess: false
+        connectionStrategy: PRIVATE_IP
+        deleteRootOnTermination: true
+        description: "Jenkins-slave ami"
+        ebsEncryptRootVolume: DEFAULT
+        ebsOptimized: false
+        hostKeyVerificationStrategy: ACCEPT_NEW
+        iamInstanceProfile: "arn:aws:iam::532366692945:instance-profile/ses-role"
+        idleTerminationMinutes: "2"
+        javaPath: "java"
+        labelString: "aws"
+        maxTotalUses: -1
+        metadataEndpointEnabled: true
+        metadataHopsLimit: 1
+        metadataTokensRequired: false
+        minimumNumberOfInstances: 0
+        minimumNumberOfSpareInstances: 0
+        mode: NORMAL
+        monitoring: false
+        numExecutors: 5
+        remoteAdmin: "ec2-user"
+        remoteFS: "/home/ec2-user"
+        securityGroups: "Jenkins-slave-sg"
+        stopOnTerminate: false
+        t2Unlimited: false
+        tags:
+        - name: "Name"
+          value: "Jenkins-Slave-Machine"
+        - name: "managedBy"
+          value: "Jenkins"
+        - name: "usedBy"
+          value: "Jenkins"
+        tenancy: Default
+        type: M5aLarge
+        useEphemeralDevices: false
+      useInstanceProfileForCredentials: true
   systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code Plugin\n\n"
   numExecutors: 1
   mode: NORMAL

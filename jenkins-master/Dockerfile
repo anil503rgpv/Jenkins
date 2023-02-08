@@ -1,9 +1,6 @@
 FROM 532366692945.dkr.ecr.ap-south-1.amazonaws.com/jenkins-master-base:latest
 ARG MAIL_SECRET_KEY
 ARG MAIL_ACCESS_KEY
-ARG PRIVATE_KEY_PATH=/home/jenkins/ssh_key/id_rsa
-COPY id_rsa ${PRIVATE_KEY_PATH}
-RUN chmod 400 ${PRIVATE_KEY_PATH} && chown jenkins:jenkins ${PRIVATE_KEY_PATH}
 RUN apt-get install \
     ca-certificates \
     gnupg 
@@ -17,10 +14,16 @@ RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io d
 COPY jenkins.yaml /home/jenkins/casc_configs/jenkins.yaml
 RUN chown jenkins:jenkins -R /home/jenkins/casc_configs
 
+
+ARG PRIVATE_KEY_PATH=/home/jenkins/ssh_key
+COPY id_rsa ${PRIVATE_KEY_PATH}/id_rsa
+COPY jenkins.pem ${PRIVATE_KEY_PATH}/jenkins.pem
+RUN chmod 400 ${PRIVATE_KEY_PATH}/id_rsa && chmod 400 ${PRIVATE_KEY_PATH}/jenkins.pem && chown jenkins:jenkins ${PRIVATE_KEY_PATH} -R
 USER jenkins
 ENV MAIL_SECRET_KEY=${MAIL_SECRET_KEY}
 ENV MAIL_ACCESS_KEY=${MAIL_ACCESS_KEY}
-ENV SSH_PRIVATE_FILE_PATH=${PRIVATE_KEY_PATH}
+ENV SSH_PRIVATE_FILE_PATH=${PRIVATE_KEY_PATH}/id_rsa
+ENV AWS_EC2_FILE_PATH=${PRIVATE_KEY_PATH}/jenkins.pem
 ARG JAVA_OPTS
 ENV JAVA_OPTS "-Djenkins.install.runSetupWizard=false ${JAVA_OPTS:-}"
 
